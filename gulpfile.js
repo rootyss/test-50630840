@@ -17,7 +17,8 @@ const build = () =>  {
     .pipe(cleancss())
     .pipe(rename({suffix: '.min'}))
     .pipe(sourcemaps.write())
-    .pipe(dest('./dist'));
+    .pipe(dest('./dist'))
+    .pipe(src('./app/index.html')).pipe(dest('./dist'));
 };
 
 const html = () => src('./app/index.html').pipe(dest('./dist'));
@@ -29,8 +30,5 @@ const serve = () => {
   watch('./app/*.scss', series(cleanDist, html, build)).on('change', browserSync.reload)
 };
 
-const deploy = () => series(html, build);
-
-exports.deploy = deploy;
 exports.serve = serve;
 exports.build = build;
