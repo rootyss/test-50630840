@@ -1,9 +1,214 @@
+$wrapper-bg-color: #C0DBD9;
+$block-1-bg-color: #B3F95A;
+$block-1-frame-bg-color: #8AD191;
+$font-color: #fff;
+$block-2-bg-color: #88B5BF;
+$block-2-frame-bg-color: #0D89B0;
+$header-bg-color: #7FAFF7;
+$footer-bg-color: #7FAFF7;
+$button-pop-up-bg-color: #A5C7F9;
+$font-size: 53px;
+$button-pop-up-font-size: 20px;
+$button-close-bg-color: #7FAFF6;
+
+@mixin number-style {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $font-color;
+  font-size: $font-size;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
 body {
-	background-color: #eee;
+  margin: 0;
 }
-.autoplacement-example {
+.grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, 1fr);
+  grid-template-rows: 100px 1.5fr 1fr 100px 100px;
+  grid-template-areas: 
+  "header"
+  "block-1"
+  "block-2"
+  "empty"
+  "footer";
+  grid-gap: 15px;
 }
+.wrapper {
+  height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  background-color: $wrapper-bg-color;
+}
+header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  background-color: $header-bg-color;
+}
+footer {
+  grid-area: footer;
+  background-color: $footer-bg-color;
+}
+.block-1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 160px);
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  "frame1 frame1 frame2 frame2 frame2 frame2 frame3"
+  "frame4 frame4 frame4 frame4 frame4 frame4 frame5";
+  grid-gap: 15px;
+  background-color: $block-1-bg-color;
+}
+.frame-1 {
+  grid-area: frame1;
+  @include number-style;
+  &:after {
+    content: '\1D7E3';
+  }
+}
+.frame-2 {
+  grid-area: frame2;
+  @include number-style;
+  &:after {
+    content: '\1D7E4';
+  }
+}
+.frame-3 {
+  grid-area: frame3;
+  @include number-style;
+  &:after {
+    content: '\1D7E5';
+  }
+}
+.frame-4 {
+  grid-area: frame4;
+  @include number-style;
+  &:after {
+    content: '\1D7E6';
+  }
+}
+.frame-5 {
+  grid-area: frame5;
+  @include number-style;
+  &:after {
+    content: '\1D7E7';
+  }
+}
+.top-frame {
+  background-color: $block-1-frame-bg-color;
+}
+.block-2 {
+  width: 100%;
+  padding: 30px;
+  display: flex;
+  background-color: $block-2-bg-color;
+}
+.bottom-frame {
+ width: 100%;
+ &:not(:last-child) {
+  margin-right: 30px;
+}
+& > div {
+  position:relative;
+ width:100%;
+ padding-bottom:75%;
+  background-color: $block-2-frame-bg-color;
+  & > div {
+    position:absolute;
+ width:100%;
+ height:100%;
+  }
+}
+}
+.pop-up-button {
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  color: $font-color;
+  cursor: pointer;
+  font-size: $button-pop-up-font-size;
+  background-color: $button-pop-up-bg-color;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1050;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+}
+.modal:target {
+  opacity: 1;
+  pointer-events: auto;
+  overflow-y: auto;
+}
+
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+.modal-content {
+  min-height: 400px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: .3rem;
+  outline: 0;
+  font-size: $font-size;
+}
+.modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 15px;
+  overflow: auto;
+}
+.close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  padding: 0 5px;
+  border-radius: 3px;
+  font-size: $button-pop-up-font-size;
+  color: #fff;
+  background-color: $button-close-bg-color;
+  text-decoration: none;
+}
+.close:focus, .close:hover {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: .75;
+}
+@media (min-width: 576px) {
+      .modal-dialog {
+        max-width: 500px;
+        margin: 30px auto;
+      }
+    }
+
+ @media (min-width: 768px) {
+      .modal-content {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+      }
+    }
