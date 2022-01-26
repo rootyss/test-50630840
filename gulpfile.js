@@ -29,5 +29,8 @@ const serve = () => {
   watch('./app/*.scss', series(cleanDist, html, build)).on('change', browserSync.reload)
 };
 
+const deploy = () => series(html, build);
+
+exports.deploy = deploy;
 exports.serve = serve;
 exports.build = build;
